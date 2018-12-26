@@ -1,0 +1,102 @@
+<head>
+<meta charset="UTF-8">
+<title>Inserere</title>
+<link ref="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css">
+<script type="text/javascript" src="./js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" language="javascript"
+	src="./js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="./js/demo.js"></script>
+
+
+<script type="text/javascript">
+	
+</script>
+
+</head>
+<body>
+	<div>
+		<input id="myDiv" name="pathName" />
+	</div>
+	<div>
+		<input id="pathId" name="pathName" />
+
+	</div>
+	<button onclick="pathHandler()">connect</button>
+	<table id="myTable">
+		<thead>
+			<tr>
+				<th>id</th>
+				<th>cupSize</th>
+				<th>age</th>
+
+			</tr>
+		</thead>
+	</table>
+	<table style="border:solid">
+		<thead><tr><td>id</td><td>name</td><td class="pathClass">path</td></tr></thead>
+			<tr><td>id1</td><td>name1</td><td class="pathClass">p1</td></tr>
+			<tr><td>id2</td><td>name2</td><td class="pathClass">p2</td></tr>
+			<tr><td>id3</td><td>name3</td><td class="pathClass">p3</td></tr>
+	</table>
+	<script>
+		var data_table;
+		$(document).ready(function() {
+			$.ajax({
+				type : 'GET',
+				dataType : 'json',
+				url : 'http://localhost:8081/girl/girlListG',
+				success : function(data) {
+					initTable(data);
+				}
+			});
+			pathHandler();
+		});
+
+		function pathHandler() {
+			var valueOfPath = $('#pathId').val();
+
+			if (valueOfPath != '') {
+				/* 				alert(valueOfPath);*/
+				$('.pathClass').val(valueOfPath);
+ 				data_table.fnDrawCallback(true);
+ 			}
+		}
+
+		function initTable(data) {
+			data_table = $('#myTable').DataTable({
+				data : data,
+				searching : true,
+				autoWidth : false,
+				bLengthChange : false,
+				bPaginate : false,
+				bInfo : false,
+				bSort : false,
+
+				/* sAjaxSource : 'http://localhost:8081/girl/girlListP',
+				bServerData : true,
+				bServerSide : true,
+				bProcessing : true, */
+				/*  				fnServerData : retrieveDataTable,
+				 */columns : [ {
+					data : "id"
+				}, {
+					data : "cupSize"
+				}, {
+					data : "age"
+				} ]
+			});
+		}
+		/* 		function retrieveDataTable(sSource,aoData,fnCallback){
+		
+		 $.ajax({
+		 dataType : "json",
+		 type : 'POST',
+		 url : sSource,
+		 data : aoData,
+		 success : fnCallback
+		 });
+		
+		 } */
+	</script>
+</body>
